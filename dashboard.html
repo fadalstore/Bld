@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="so-SO">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Lacag ka Hel Su'aalaha</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4270866898297862" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="user-header">
+            <h1>🎉 Ku dhawaaq, <span id="user-name"></span>!</h1>
+            <p>Dashboard-kaaga shaqsiga ah</p>
+            <button class="logout-btn" onclick="logout()">🚪 Ka bax</button>
+        </div>
+
+        <div class="user-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="total-earned">$0</div>
+                <p>Lacag La Helay</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completed-surveys">0</div>
+                <p>Su'aalo La Dhameeyay</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="available-surveys">5</div>
+                <p>Su'aalo Cusub</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="join-date"></div>
+                <p>Taariikhda Bilaabay</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📋 Su'aalo Diyaar ah</h2>
+            <p>Dooro survey aad rabto inaad bilowdo:</p>
+
+            <div class="survey-grid">
+                <div class="survey-card">
+                    <span class="survey-reward">$15</span>
+                    <h3>🛒 Shopping Habits Survey</h3>
+                    <p>Ka hadal caadahaaga iibsiga online. 10-15 daqiiqo ayaa loo baahan yahay.</p>
+                    <button class="start-survey-btn" onclick="startSurvey('shopping', 15)">
+                        Bilow Survey-gan
+                    </button>
+                </div>
+
+                <div class="survey-card">
+                    <span class="survey-reward">$20</span>
+                    <h3>📱 App Testing Survey</h3>
+                    <p>Tijaabi app cusub oo ra'yi ka bixi. 15-20 daqiiqo.</p>
+                    <button class="start-survey-btn" onclick="startSurvey('app-testing', 20)">
+                        Bilow Survey-gan
+                    </button>
+                </div>
+
+                <div class="survey-card">
+                    <span class="survey-reward">$12</span>
+                    <h3>🏠 Home Products Survey</h3>
+                    <p>Su'aalo ku saabsan alaabta guriga. 8-12 daqiiqo.</p>
+                    <button class="start-survey-btn" onclick="startSurvey('home-products', 12)">
+                        Bilow Survey-gan
+                    </button>
+                </div>
+
+                <div class="survey-card">
+                    <span class="survey-reward">$25</span>
+                    <h3>💼 Work Life Survey</h3>
+                    <p>Ka hadal nolol maalmeedkaaga shaqada. 20-25 daqiiqo.</p>
+                    <button class="start-survey-btn" onclick="startSurvey('work-life', 25)">
+                        Bilow Survey-gan
+                    </button>
+                </div>
+
+                <div class="survey-card">
+                    <span class="survey-reward">$18</span>
+                    <h3>🍔 Food Preferences Survey</h3>
+                    <p>Dooqyada aad jeceshahay iyo kuwa aadan jeclayn. 12-15 daqiiqo.</p>
+                    <button class="start-survey-btn" onclick="startSurvey('food', 18)">
+                        Bilow Survey-gan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>💰 Lacag Qaadis</h2>
+            <p>Lacag aad heshatay ayaad ku qaadan kartaa:</p>
+            <ul>
+                <li>💳 PayPal - Ugu yar $10</li>
+                <li>📱 M-Pesa - Ugu yar $5</li>
+                <li>💰 Zaad Service - Ugu yar $5</li>
+                <li>🏦 Bank Transfer - Ugu yar $20</li>
+            </ul>
+            <button class="cta-button" onclick="requestPayout()" style="margin-top: 1rem;">
+                💸 Lacag Qaad
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        function checkAuth() {
+            const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            if (!user) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            return user;
+        }
+
+        // Load user data
+        function loadUserData() {
+            const user = checkAuth();
+            if (!user) return;
+
+            document.getElementById('user-name').textContent = user.name;
+            document.getElementById('total-earned').textContent = '$' + user.totalEarned;
+            document.getElementById('completed-surveys').textContent = user.completedSurveys;
+            document.getElementById('join-date').textContent = user.joinDate;
+        }
+
+        // Start survey
+        function startSurvey(type, reward) {
+            const confirmed = confirm(`Ma hubtaa inaad rabto inaad bilowdo survey-gan? Waxaad ka heli doontaa $${reward}.`);
+            if (confirmed) {
+                // Simulate survey completion
+                setTimeout(() => {
+                    completeSurvey(reward);
+                }, 3000);
+
+                alert('🎯 Survey wuu bilaamay! Ka waraan 3 daqiiqo...');
+            }
+        }
+
+        // Complete survey
+        function completeSurvey(reward) {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+            // Update user data
+            user.totalEarned += reward;
+            user.completedSurveys += 1;
+
+            // Update in storage
+            localStorage.setItem('currentUser', JSON.stringify(user));
+
+            const userIndex = users.findIndex(u => u.id === user.id);
+            if (userIndex !== -1) {
+                users[userIndex] = user;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+
+            // Update display
+            loadUserData();
+
+            alert(`🎉 Guul! Survey wuu dhammaaday! Waxaad heshay $${reward}!`);
+        }
+
+        // Request payout
+        function requestPayout() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user.totalEarned < 5) {
+                alert('❌ Waxaad u baahan tahay ugu yaraan $5 si aad lacag u qaadato.');
+                return;
+            }
+
+            const method = prompt('Sidee ayaad lacag u qaadanaysaa?\n1. PayPal\n2. M-Pesa\n3. Zaad\n4. Bank\n\nGali lambarka (1-4):');
+
+            if (method && method >= 1 && method <= 4) {
+                alert('✅ Codsigaagu waa la diray! 24-48 saacadood gudahood lacagtu way iman doontaa.');
+            }
+        }
+
+        // Logout
+        function logout() {
+            const confirmed = confirm('Ma hubtaa inaad rabto inaad ka baxdo?');
+            if (confirmed) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadUserData);
+    </script>
+</body>
+</html>
