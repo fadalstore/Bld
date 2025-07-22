@@ -152,7 +152,12 @@ def admin():
 def add():
     if request.method == "POST":
         title = request.form["title"]
-
+        content = request.form["content"]
+        new_post = Post(title=title, content=content)
+        db.session.add(new_post)
+        db.session.commit()
+        return redirect("/")
+    return render_template("add_post.html")
 
 @app.route("/download-zip")
 def download_zip():
@@ -211,13 +216,6 @@ flask-sqlalchemy>=3.1.1"""
         download_name='lacag-online-website.zip',
         mimetype='application/zip'
     )
-
-        content = request.form["content"]
-        new_post = Post(title=title, content=content)
-        db.session.add(new_post)
-        db.session.commit()
-        return redirect("/")
-    return render_template("add_post.html")
 
 if __name__ == "__main__":
     with app.app_context():
