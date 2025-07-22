@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -13,11 +12,29 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
 
-@app.before_first_request
-def setup():
+# User model for authentication
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+    earnings = db.Column(db.Float, default=0.0)
+    completed_surveys = db.Column(db.Integer, default=0)
+    join_date = db.Column(db.String(20), nullable=False)
+
+# Survey model
+class Survey(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    survey_type = db.Column(db.String(50), nullable=False)
+    reward = db.Column(db.Float, nullable=False)
+    completed_date = db.Column(db.String(20), nullable=False)
+
+# Initialize database
+with app.app_context():
     db.create_all()
     if not Post.query.first():
-        demo = Post(title="Ku soo dhawoow!", content="Qalbiga Nadiifta waa meel aad ku helayso xigmad, qisooyin iyo ducooyin qalbiga taabanaya.")
+        demo = Post(title="Ku soo dhawaaw!", content="Qalbiga Nadiifta waa meel aad ku helayso xigmad, qisooyin iyo ducooyin qalbiga taabanaya.")
         db.session.add(demo)
         db.session.commit()
 

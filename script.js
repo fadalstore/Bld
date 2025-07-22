@@ -1,4 +1,398 @@
 
+// User data management
+let userData = {
+    name: localStorage.getItem('userName') || 'Isticmaale',
+    totalEarned: parseFloat(localStorage.getItem('totalEarned')) || 0,
+    completedSurveys: parseInt(localStorage.getItem('completedSurveys')) || 0,
+    joinDate: localStorage.getItem('joinDate') || new Date().toLocaleDateString('so-SO')
+};
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    initializePage();
+    updateUserStats();
+    addScrollAnimations();
+    addButtonEffects();
+    addParallaxEffect();
+    addMouseTracker();
+    enhanceFormValidation();
+    startEarningsAnimation();
+});
+
+function initializePage() {
+    // Update user name display
+    const userNameElement = document.getElementById('user-name');
+    if (userNameElement) {
+        userNameElement.textContent = userData.name;
+    }
+    
+    // Update stats
+    updateUserStats();
+    
+    // Add countdown timer
+    setInterval(updateCountdown, 1000);
+}
+
+function updateUserStats() {
+    const elements = {
+        'total-earned': `$${userData.totalEarned.toFixed(2)}`,
+        'completed-surveys': userData.completedSurveys,
+        'available-surveys': Math.max(0, 6 - userData.completedSurveys),
+        'join-date': userData.joinDate
+    };
+    
+    Object.entries(elements).forEach(([id, value]) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = value;
+        }
+    });
+}
+
+// Survey management
+function startSurvey(surveyType, reward) {
+    if (userData.completedSurveys >= 6) {
+        showNotification('❌ Waxaad dhammeysay dhammaan surveys-ka maanta!', 'error');
+        return;
+    }
+    
+    showNotification('⏳ Survey-ga ayaa la billaabayaa...', 'info');
+    
+    // Simulate survey completion
+    setTimeout(() => {
+        completeSurvey(surveyType, reward);
+    }, 3000);
+}
+
+function completeSurvey(surveyType, reward) {
+    userData.totalEarned += reward;
+    userData.completedSurveys += 1;
+    
+    // Save to localStorage
+    localStorage.setItem('totalEarned', userData.totalEarned.toString());
+    localStorage.setItem('completedSurveys', userData.completedSurveys.toString());
+    
+    updateUserStats();
+    showNotification(`🎉 Guuleysta! $${reward} ayaa lagu daray xisaabkaaga!`, 'success');
+    
+    // Send to backend
+    fetch('/start-survey', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `survey_type=${surveyType}&reward=${reward}`
+    });
+}
+
+// Notification system
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${getNotificationColor(type)};
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 1000;
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    setTimeout(() => {
+        notification.style.transform = 'translateX(400px)';
+        setTimeout(() => notification.remove(), 300);
+    }, 4000);
+}
+
+function getNotificationColor(type) {
+    const colors = {
+        'success': 'linear-gradient(135deg, #28a745, #20c997)',
+        'error': 'linear-gradient(135deg, #dc3545, #fd7e14)',
+        'info': 'linear-gradient(135deg, #667eea, #764ba2)',
+        'warning': 'linear-gradient(135deg, #ffc107, #fd7e14)'
+    };
+    return colors[type] || colors.info;
+}
+
+// Countdown timer
+function updateCountdown() {
+    const now = new Date();
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    
+    const timeLeft = tomorrow.getTime() - now.getTime();
+    
+    const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    
+    const countdownElement = document.getElementById('countdown');
+    if (countdownElement) {
+        countdownElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+}
+
+// Animation functions
+function animateCounters() {
+    const counters = document.querySelectorAll('.stat-number');
+    
+    counters.forEach(counter => {
+        const target = parseInt(counter.textContent.replace(/[^\d]/g, ''));
+        let current = 0;
+        const increment = target / 50;
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                counter.textContent = counter.textContent.replace(/\d+/, target);
+                clearInterval(timer);
+            } else {
+                counter.textContent = counter.textContent.replace(/\d+/, Math.floor(current));
+            }
+        }, 40);
+    });
+}
+
+function startEarningsAnimation() {
+    const earningsElement = document.getElementById('total-earned');
+    if (earningsElement) {
+        setInterval(() => {
+            earningsElement.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                earningsElement.style.transform = 'scale(1)';
+            }, 200);
+        }, 5000);
+    }
+}
+
+// Authentication functions
+function showLogin() {
+    document.getElementById('login-form').classList.add('active');
+    document.getElementById('register-form').classList.remove('active');
+    document.querySelector('.tab-button.active').classList.remove('active');
+    document.querySelector('[onclick="showLogin()"]').classList.add('active');
+}
+
+function showRegister() {
+    document.getElementById('register-form').classList.add('active');
+    document.getElementById('login-form').classList.remove('active');
+    document.querySelector('.tab-button.active').classList.remove('active');
+    document.querySelector('[onclick="showRegister()"]').classList.add('active');
+}
+
+function registerUser() {
+    const form = document.getElementById('register-form');
+    const formData = new FormData(form);
+    
+    showLoading(document.querySelector('#register-form button[type="submit"]'));
+    
+    fetch('/register', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification(data.message, 'success');
+            localStorage.setItem('userName', formData.get('username'));
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 2000);
+        } else {
+            showNotification(data.message, 'error');
+        }
+    });
+}
+
+function loginUser() {
+    const form = document.getElementById('login-form');
+    const formData = new FormData(form);
+    
+    showLoading(document.querySelector('#login-form button[type="submit"]'));
+    
+    fetch('/authenticate', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification(data.message, 'success');
+            localStorage.setItem('userName', formData.get('username'));
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 2000);
+        } else {
+            showNotification(data.message, 'error');
+        }
+    });
+}
+
+function logout() {
+    localStorage.clear();
+    showNotification('✅ Si nabad ah ayaad uga baxday!', 'success');
+    setTimeout(() => {
+        window.location.href = '/';
+    }, 1500);
+}
+
+// Loading state
+function showLoading(button) {
+    const originalText = button.textContent;
+    button.textContent = '⏳ Sugaya...';
+    button.disabled = true;
+    
+    return () => {
+        button.textContent = originalText;
+        button.disabled = false;
+    };
+}
+
+// Enhanced visual effects
+function addButtonEffects() {
+    document.querySelectorAll('.cta-button, .start-survey-btn, .auth-button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+}
+
+function addParallaxEffect() {
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const header = document.querySelector('header');
+        const parallaxElements = document.querySelectorAll('.stat, .benefit-card');
+        
+        if (header) {
+            header.style.transform = `translateY(${scrolled * 0.3}px)`;
+        }
+        
+        parallaxElements.forEach((el, index) => {
+            const speed = 0.1 + (index * 0.05);
+            el.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+    });
+}
+
+function addScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+    
+    document.querySelectorAll('.card, .stat, .benefit-card, .work-item, .testimonial').forEach(el => {
+        observer.observe(el);
+    });
+}
+
+function addMouseTracker() {
+    document.addEventListener('mousemove', (e) => {
+        const cards = document.querySelectorAll('.card, .benefit-card, .work-item');
+        
+        cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            
+            if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+            } else {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+            }
+        });
+    });
+}
+
+function enhanceFormValidation() {
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(form => {
+        const inputs = form.querySelectorAll('input[required]');
+        
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.classList.contains('error')) {
+                    validateField(this);
+                }
+            });
+        });
+    });
+}
+
+function validateField(field) {
+    const value = field.value.trim();
+    const isValid = value.length > 0;
+    
+    if (isValid) {
+        field.classList.remove('error');
+        field.classList.add('valid');
+    } else {
+        field.classList.remove('valid');
+        field.classList.add('error');
+    }
+    
+    return isValid;
+}
+
+function typeWriter(element, text, speed = 50) {
+    let i = 0;
+    element.innerHTML = '';
+    
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        }
+    }
+    type();
+}
+
+
+
 // Countdown Timer with enhanced features
 function updateCountdown() {
     const countdownElement = document.getElementById('countdown');
