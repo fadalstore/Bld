@@ -387,6 +387,8 @@ function validateField(field) {
 }
 
 function typeWriter(element, text, speed = 50) {
+    if (!element) return;
+
     let i = 0;
     element.innerHTML = '';
 
@@ -399,6 +401,17 @@ function typeWriter(element, text, speed = 50) {
     }
     type();
 }
+
+// Error handling for global functions
+window.addEventListener('error', function(e) {
+    console.log('Error handled:', e.message);
+    return true;
+});
+
+// Safe gtag function if analytics needed later
+window.gtag = window.gtag || function() {
+    console.log('Analytics not configured');
+};
 
 
 
@@ -469,6 +482,8 @@ function addScrollAnimations() {
 
 // Typing effect for hero text
 function typeWriter(element, text, speed = 50) {
+    if (!element) return;
+
     let i = 0;
     element.innerHTML = '';
 
