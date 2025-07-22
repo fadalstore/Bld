@@ -50,6 +50,64 @@ def dashboard():
 def login():
     return render_template("login.html")
 
+@app.route("/register", methods=["POST"])
+def register():
+    from datetime import datetime
+    try:
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        # Check if user exists
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            return {"success": False, "message": "Isticmaalahan waa jira!"}
+        
+        # Create new user
+        new_user = User(
+            username=username,
+            email=email,
+            password=password,
+            join_date=datetime.now().strftime('%Y-%m-%d')
+        )
+        
+        db.session.add(new_user)
+        db.session.commit()
+        
+        return {"success": True, "message": "Guuleysta! Xisaab cusub ayaa la sameeyay!"}
+    
+    except Exception as e:
+        return {"success": False, "message": "Cilad ayaa dhacday!"}
+
+@app.route("/authenticate", methods=["POST"])
+def authenticate():
+    try:
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        user = User.query.filter_by(username=username, password=password).first()
+        
+        if user:
+            return {"success": True, "message": "Guuleysta! Dashboard-ka ayaad u waregi doontaa!"}
+        else:
+            return {"success": False, "message": "Username ama password qaldan!"}
+    
+    except Exception as e:
+        return {"success": False, "message": "Cilad ayaa dhacday!"}
+
+@app.route("/start-survey", methods=["POST"])
+def start_survey():
+    try:
+        survey_type = request.form.get('survey_type')
+        reward = float(request.form.get('reward'))
+        
+        # Here you would save survey completion to database
+        # For now just return success
+        return {"success": True, "message": f"Survey completed! ${reward} earned!"}
+    
+    except Exception as e:
+        return {"success": False, "message": "Error completing survey"}
+
 @app.route("/about")
 def about():
     return render_template("about.html")

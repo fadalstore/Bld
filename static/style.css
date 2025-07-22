@@ -1,4 +1,3 @@
-
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
@@ -804,41 +803,41 @@ nav a:hover {
     .container {
         padding: 0 15px;
     }
-    
+
     header h1 {
         font-size: 2.5rem;
     }
-    
+
     .intro-content h2 {
         font-size: 2rem;
     }
-    
+
     .stats {
         grid-template-columns: 1fr;
     }
-    
+
     .work-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .benefit-grid {
         grid-template-columns: 1fr;
     }
-    
+
     nav {
         flex-direction: column;
         gap: 10px;
         padding: 15px;
     }
-    
+
     .survey-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .user-stats {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .logout-btn {
         position: static;
         margin-top: 20px;
@@ -853,32 +852,32 @@ nav a:hover {
     .user-stats {
         grid-template-columns: 1fr;
     }
-    
+
     .intro-content {
         padding: 30px 20px;
     }
-    
+
     .card {
         padding: 30px 20px;
     }
-    
+
     .final-cta {
         padding: 40px 25px;
     }
-    
+
     .final-cta h2 {
         font-size: 2rem;
     }
-    
+
     .auth-container {
         margin: 20px;
         padding: 30px 25px;
     }
-    
+
     header h1 {
         font-size: 2rem;
     }
-    
+
     header p {
         font-size: 1.1rem;
     }
@@ -995,10 +994,9 @@ button:focus, input:focus {
 @media print {
     * {
         background: white !important;
-        color: black !important;
-        box-shadow: none !important;
+        color: black !important;        box-shadow: none !important;
     }
-    
+
     .logout-btn, .cta-button, .start-survey-btn {
         display: none !important;
     }
@@ -1623,7 +1621,7 @@ footer {
         margin: 20px 0;
         padding: 10px;
     }
-    
+
     .ad-rectangle ins {
         max-width: 100% !important;
         height: auto !important;
@@ -1921,40 +1919,40 @@ footer {
     .container {
         padding: 0 15px;
     }
-    
+
     header h1 {
         font-size: 2rem;
     }
-    
+
     .intro-content h2 {
         font-size: 2rem;
     }
-    
+
     .stats {
         grid-template-columns: 1fr;
     }
-    
+
     .work-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .benefit-grid {
         grid-template-columns: 1fr;
     }
-    
+
     nav {
         flex-direction: column;
         gap: 10px;
     }
-    
+
     .survey-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .user-stats {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .logout-btn {
         position: static;
         margin-top: 15px;
@@ -1965,19 +1963,19 @@ footer {
     .user-stats {
         grid-template-columns: 1fr;
     }
-    
+
     .intro-content {
         padding: 25px;
     }
-    
+
     .card {
         padding: 25px;
     }
-    
+
     .final-cta {
         padding: 30px;
     }
-    
+
     .final-cta h2 {
         font-size: 2rem;
     }
@@ -2022,4 +2020,170 @@ footer {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+text-align: center;
+}
+
+/* Dashboard Specific Styles */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.user-header {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.user-header h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.logout-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(238, 90, 82, 0.3);
+}
+
+.user-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.survey-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.survey-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.survey-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.survey-reward {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.start-survey-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.start-survey-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.withdrawal-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.method {
+    background: #f8f9ff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #e8ecff;
+}
+
+.method h4 {
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.ad-banner {
+    margin: 30px 0;
+    text-align: center;
+    background: #f8f9ff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 10px;
+    }
+
+    .user-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .survey-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
 }
