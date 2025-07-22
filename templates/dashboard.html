@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Lacag ka Hel Su'aalaha</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4270866898297862" crossorigin="anonymous"></script>
     <script>
       (adsbygoogle = window.adsbygoogle || []).push({
@@ -132,22 +132,17 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
   <script>
     // Initialize all AdSense ads for dashboard
     (adsbygoogle = window.adsbygoogle || []).push({});
     (adsbygoogle = window.adsbygoogle || []).push({});
     
-    // Dashboard specific analytics
-    gtag('event', 'dashboard_view', {
-      'event_category': 'engagement',
-      'event_label': 'user_dashboard'
-    });
+    // Dashboard loaded successfully
+    console.log('Dashboard loaded');
   </script>
 </body>
 </html>
-
-<body>
     <div class="dashboard-container">
         <div class="user-header">
             <h1>🎉 Ku dhawaaq, <span id="user-name"></span>!</h1>
