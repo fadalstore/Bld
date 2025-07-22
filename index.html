@@ -10,7 +10,17 @@
   <link href="style.css" rel="stylesheet" type="text/css" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4270866898297862"
      crossorigin="anonymous"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4270866898297862" crossorigin="anonymous"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+    
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-4270866898297862",
+      enable_page_level_ads: true
+    });
+  </script>
 </head>
 
 <body>
@@ -96,8 +106,8 @@
       <div class="ad-banner">
         <ins class="adsbygoogle"
              style="display:block"
-             data-ad-client="ca-pub-HALKANYOURPUBLISHERID"
-             data-ad-slot="2649768814"
+             data-ad-client="ca-pub-4270866898297862"
+             data-ad-slot="1234567890"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
       </div>
@@ -108,8 +118,8 @@
              style="display:block; text-align:center;"
              data-ad-layout="in-article"
              data-ad-format="fluid"
-             data-ad-client="ca-pub-HALKANYOURPUBLISHERID"
-             data-ad-slot="7849123456"></ins>
+             data-ad-client="ca-pub-4270866898297862"
+             data-ad-slot="9876543210"></ins>
       </div>
 
       <div class="benefits" id="benefits">
@@ -201,8 +211,8 @@
       <div class="ad-rectangle">
         <ins class="adsbygoogle"
              style="display:block"
-             data-ad-client="ca-pub-HALKANYOURPUBLISHERID"
-             data-ad-slot="2649768814"
+             data-ad-client="ca-pub-4270866898297862"
+             data-ad-slot="5555555555"
              data-ad-format="rectangle"></ins>
       </div>
 
@@ -210,8 +220,8 @@
       <div class="ad-rectangle">
         <ins class="adsbygoogle"
              style="display:inline-block;width:336px;height:280px"
-             data-ad-client="ca-pub-HALKANYOURPUBLISHERID"
-             data-ad-slot="3456789012"></ins>
+             data-ad-client="ca-pub-4270866898297862"
+             data-ad-slot="6666666666"></ins>
       </div>
 
       <div class="faq-section" id="faq">
@@ -307,8 +317,8 @@
   <div class="ad-banner" style="margin: 2rem 0;">
     <ins class="adsbygoogle"
          style="display:block"
-         data-ad-client="ca-pub-HALKANYOURPUBLISHERID"
-         data-ad-slot="8901234567"
+         data-ad-client="ca-pub-4270866898297862"
+         data-ad-slot="7777777777"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
   </div>
@@ -321,6 +331,28 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
     (adsbygoogle = window.adsbygoogle || []).push({});
     (adsbygoogle = window.adsbygoogle || []).push({});
+    
+    // Auto ads configuration
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-4270866898297862",
+      enable_page_level_ads: true
+    });
+    
+    // Responsive ad loading
+    function loadAds() {
+      try {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.log('AdSense error:', e);
+      }
+    }
+    
+    // Load ads after page is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadAds);
+    } else {
+      loadAds();
+    }
   </script>
 </body>
 

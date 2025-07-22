@@ -1593,10 +1593,79 @@ footer {
 .ad-banner, .ad-rectangle {
     margin: 40px 0;
     text-align: center;
+    padding: 15px;
+    background: linear-gradient(135deg, #f8f9ff, #e8ecff);
+    border-radius: 15px;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.ad-banner::before, .ad-rectangle::before {
+    content: '📢 Sponsored Content';
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 0.8rem;
+    color: #667eea;
+    opacity: 0.7;
+}
+
+.ad-banner ins, .ad-rectangle ins {
+    display: block !important;
+    margin: 0 auto;
+}
+
+/* AdSense responsive fixes */
+@media (max-width: 768px) {
+    .ad-banner, .ad-rectangle {
+        margin: 20px 0;
+        padding: 10px;
+    }
+    
+    .ad-rectangle ins {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+
+/* Ad loading animation */
+.ad-banner:empty, .ad-rectangle:empty {
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    animation: pulse 1.5s ease-in-out infinite alternate;
+    min-height: 250px;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* Withdrawal methods styling */
+.withdrawal-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.method {
+    background: linear-gradient(135deg, #f8f9ff, #e8ecff);
     padding: 20px;
-    background: #f8f9ff;
     border-radius: 10px;
-    border: 2px dashed #667eea;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.method:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+}
+
+.method h4 {
+    color: #667eea;
+    margin-bottom: 10px;
 }
 
 /* Dashboard Styles */
