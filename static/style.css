@@ -978,6 +978,323 @@ nav a:hover {
     background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
 }
 
+/* Live Earnings Ticker */
+#live-earnings-ticker {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 10px 0;
+    z-index: 1000;
+    overflow: hidden;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    display: none;
+}
+
+.ticker-content {
+    display: flex;
+    animation: scroll-left 30s linear infinite;
+    gap: 50px;
+    align-items: center;
+}
+
+.earning-update {
+    white-space: nowrap;
+    padding: 0 20px;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+@keyframes scroll-left {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Live Statistics Indicators */
+.live-indicator {
+    font-size: 0.8rem;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin-top: 8px;
+    font-weight: 600;
+    animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Enhanced Statistics */
+.stat {
+    position: relative;
+    overflow: visible;
+}
+
+.stat::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 15px;
+    height: 15px;
+    background: #28a745;
+    border-radius: 50%;
+    animation: ping 2s infinite;
+    opacity: 0.7;
+}
+
+@keyframes ping {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.5); opacity: 0.3; }
+    100% { transform: scale(1); opacity: 0.7; }
+}
+
+/* Notification System */
+#notification-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 2000;
+    max-width: 350px;
+}
+
+.live-notification {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    animation: slideIn 0.5s ease;
+    position: relative;
+}
+
+.live-notification.earning {
+    background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.live-notification.warning {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+}
+
+.notification-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Enhanced Counter Animation */
+.counter {
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.counter:hover {
+    transform: scale(1.1);
+    color: var(--accent-color);
+}
+
+/* Dashboard Live Features */
+.earning-trend, .completion-rate, .trend-indicator, .membership-level {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 10px;
+    margin-top: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.earning-trend {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.completion-rate {
+    background: linear-gradient(135deg, #17a2b8, #20c997);
+    color: white;
+}
+
+.trend-indicator {
+    background: linear-gradient(135deg, #fd7e14, #ffc107);
+    color: white;
+}
+
+.membership-level {
+    background: linear-gradient(135deg, #6f42c1, #e83e8c);
+    color: white;
+}
+
+/* Live Activity Feed */
+.activity-feed {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 30px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.activity-feed h3 {
+    color: #667eea;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: linear-gradient(135deg, #f8f9ff, #e8ecff);
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.activity-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+}
+
+.activity-time {
+    font-size: 0.8rem;
+    color: #666;
+    min-width: 80px;
+}
+
+.activity-text {
+    flex: 1;
+    margin: 0 15px;
+    font-weight: 500;
+}
+
+.activity-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.activity-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.activity-status {
+    font-size: 1.2rem;
+    min-width: 30px;
+    text-align: center;
+}
+
+/* Live Counter Enhancement */
+.live-counter {
+    position: relative;
+    overflow: hidden;
+}
+
+.live-counter::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Mobile Responsiveness for Live Features */
+@media (max-width: 768px) {
+    #live-earnings-ticker {
+        font-size: 0.9rem;
+        padding: 8px 0;
+    }
+    
+    .earning-update {
+        font-size: 0.9rem;
+        padding: 0 15px;
+    }
+    
+    #notification-container {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    
+    .live-notification {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .activity-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        text-align: left;
+    }
+    
+    .activity-time {
+        min-width: auto;
+        font-size: 0.7rem;
+    }
+}
+
 /* Text Selection */
 ::selection {
     background: var(--primary-color);
