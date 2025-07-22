@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="so">
 <head>
@@ -40,24 +39,27 @@
                     <p class="guarantee">✅ Lacagta waa la bixinayaa 24-48 saacadood gudahood</p>
                 </div>
 
-                <!-- Stats -->
-                <div class="stats">
-                    <div class="stat">
-                        <h3>15,000+</h3>
-                        <p>Dadka Lacag Helay</p>
-                    </div>
-                    <div class="stat">
-                        <h3>$500,000+</h3>
-                        <p>Lacag La Bixiyay</p>
-                    </div>
-                    <div class="stat">
-                        <h3>98%</h3>
-                        <p>Ku Qanacsanaan</p>
-                    </div>
-                    <div class="stat">
-                        <h3>24/7</h3>
-                        <p>Taageero</p>
-                    </div>
+                <!-- Live Statistics with Real-time Updates -->
+            <section class="stats">
+                <div class="stat" data-target="5847">
+                    <h3 class="counter">0</h3>
+                    <p>Dadka Wax Qabta</p>
+                    <div class="live-indicator">🟢 LIVE</div>
+                </div>
+                <div class="stat" data-target="87350">
+                    <h3 class="counter">$0</h3>
+                    <p>Lacag La Bixiyay</p>
+                    <div class="live-indicator">💰 TODAY: +$1,240</div>
+                </div>
+                <div class="stat">
+                    <h3>24/7</h3>
+                    <p>Diyaar ah</p>
+                    <div class="live-indicator">⏰ ONLINE</div>
+                </div>
+                <div class="stat" data-target="99">
+                    <h3 class="counter">0%</h3>
+                    <p>Qanacsanaanta</p>
+                    <div class="live-indicator">⭐ 4.9/5</div>
                 </div>
             </section>
 
@@ -299,10 +301,24 @@
 
     <!-- Scripts -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <!-- AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4270866898297862"
             crossorigin="anonymous"></script>
+
+    <!-- Initialize AdSense Ads -->
     <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
+        window.addEventListener('load', function() {
+            try {
+                // Initialize all AdSense ads on page
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                console.log('✅ AdSense ads initialized successfully');
+            } catch(e) {
+                console.log('AdSense initialization error:', e);
+            }
+        });
     </script>
 </body>
 </html>

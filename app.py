@@ -5,6 +5,7 @@ import os
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///qalbi.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'lacag-hel-secret-key-2024'  # Add secret key for security
 db = SQLAlchemy(app)
 
 class Post(db.Model):
@@ -37,6 +38,21 @@ with app.app_context():
         demo = Post(title="Ku soo dhawaaw!", content="Qalbiga Nadiifta waa meel aad ku helayso xigmad, qisooyin iyo ducooyin qalbiga taabanaya.")
         db.session.add(demo)
         db.session.commit()
+    
+    # Add test user if doesn't exist
+    if not User.query.filter_by(username='admin').first():
+        from datetime import datetime
+        test_user = User(
+            username='admin',
+            email='admin@lacagonline.com',
+            password='123456',
+            earnings=150.75,
+            completed_surveys=25,
+            join_date=datetime.now().strftime('%Y-%m-%d')
+        )
+        db.session.add(test_user)
+        db.session.commit()
+        print("✅ Test user created: admin/123456")
 
 @app.route("/")
 def home():
@@ -52,16 +68,21 @@ def login():
 
 @app.route("/register", methods=["POST"])
 def register():
+    from flask import jsonify
     from datetime import datetime
     try:
         username = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
 
+        # Validate input
+        if not username or not email or not password:
+            return jsonify({"success": False, "message": "Dhammaan goobaha buuxi!"})
+
         # Check if user exists
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            return {"success": False, "message": "Isticmaalahan waa jira!"}
+            return jsonify({"success": False, "message": "Isticmaalahan waa jira!"})
 
         # Create new user
         new_user = User(
@@ -74,13 +95,17 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        return {"success": True, "message": "Guuleysta! Xisaab cusub ayaa la sameeyay!"}
+        print(f"✅ User registered successfully: {username}")
+        return jsonify({"success": True, "message": "Guuleysta! Xisaab cusub ayaa la sameeyay!"})
 
     except Exception as e:
-        return {"success": False, "message": "Cilad ayaa dhacday!"}
+        print(f"❌ Registration error: {str(e)}")
+        db.session.rollback()
+        return jsonify({"success": False, "message": f"Cilad ayaa dhacday: {str(e)}"})
 
 @app.route("/authenticate", methods=["POST"])
 def authenticate():
+    from flask import jsonify
     try:
         username = request.form.get('username')
         password = request.form.get('password')
@@ -88,12 +113,12 @@ def authenticate():
         user = User.query.filter_by(username=username, password=password).first()
 
         if user:
-            return {"success": True, "message": "Guuleysta! Dashboard-ka ayaad u waregi doontaa!"}
+            return jsonify({"success": True, "message": "Guuleysta! Dashboard-ka ayaad u waregi doontaa!"})
         else:
-            return {"success": False, "message": "Username ama password qaldan!"}
+            return jsonify({"success": False, "message": "Username ama password qaldan!"})
 
     except Exception as e:
-        return {"success": False, "message": "Cilad ayaa dhacday!"}
+        return jsonify({"success": False, "message": "Cilad ayaa dhacday!"})
 
 @app.route("/start-survey", methods=["POST"])
 def start_survey():
@@ -135,6 +160,64 @@ def add():
         db.session.commit()
         return redirect("/")
     return render_template("add_post.html")
+
+@app.route("/download-zip")
+def download_zip():
+    import zipfile
+    import io
+    from flask import send_file
+    
+    # Create zip file in memory
+    zip_buffer = io.BytesIO()
+    
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        # Add all template files
+        import os
+        for root, dirs, files in os.walk('templates'):
+            for file in files:
+                file_path = os.path.join(root, file)
+                zip_file.write(file_path, file_path)
+        
+        # Add all static files
+        for root, dirs, files in os.walk('static'):
+            for file in files:
+                file_path = os.path.join(root, file)
+                zip_file.write(file_path, file_path)
+        
+        # Add main files
+        zip_file.write('app.py', 'app.py')
+        zip_file.write('pyproject.toml', 'pyproject.toml')
+        zip_file.write('.replit', '.replit')
+        zip_file.write('README.md', 'README.md')
+        
+        # Add requirements file for easy setup
+        requirements = """flask>=3.1.1
+flask-sqlalchemy>=3.1.1"""
+        zip_file.writestr('requirements.txt', requirements)
+        
+        # Add setup instructions
+        setup_instructions = """# Lacag Online Website Setup
+
+## Installation:
+1. pip install -r requirements.txt
+2. python app.py
+
+## Login credentials:
+- Username: admin
+- Password: 123456
+
+## Website runs on: http://localhost:5000
+"""
+        zip_file.writestr('SETUP.md', setup_instructions)
+    
+    zip_buffer.seek(0)
+    
+    return send_file(
+        zip_buffer,
+        as_attachment=True,
+        download_name='lacag-online-website.zip',
+        mimetype='application/zip'
+    )
 
 if __name__ == "__main__":
     with app.app_context():
