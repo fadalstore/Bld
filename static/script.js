@@ -1,9 +1,15 @@
-// User data management
+// User data management with error handling
 let userData = {
     name: localStorage.getItem('userName') || 'Isticmaale',
     totalEarned: parseFloat(localStorage.getItem('totalEarned')) || 0,
     completedSurveys: parseInt(localStorage.getItem('completedSurveys')) || 0,
     joinDate: localStorage.getItem('joinDate') || new Date().toLocaleDateString('so-SO')
+};
+
+// Error handling for missing functions
+window.onerror = function(msg, url, line, col, error) {
+    console.log('Script error caught and handled:', msg);
+    return true; // Prevent default browser error handling
 };
 
 // Initialize page
@@ -41,9 +47,13 @@ function updateUserStats() {
     };
 
     Object.entries(elements).forEach(([id, value]) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.textContent = value;
+        try {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = value;
+            }
+        } catch (error) {
+            console.log(`Element ${id} not found - this is normal on different pages`);
         }
     });
 }

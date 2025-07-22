@@ -5,6 +5,7 @@ import os
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///qalbi.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'lacag-hel-secret-key-2024'  # Add secret key for security
 db = SQLAlchemy(app)
 
 class Post(db.Model):
@@ -73,6 +74,10 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
 
+        # Validate input
+        if not username or not email or not password:
+            return {"success": False, "message": "Dhammaan goobaha buuxi!"}
+
         # Check if user exists
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
@@ -89,10 +94,13 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
+        print(f"✅ User registered successfully: {username}")
         return {"success": True, "message": "Guuleysta! Xisaab cusub ayaa la sameeyay!"}
 
     except Exception as e:
-        return {"success": False, "message": "Cilad ayaa dhacday!"}
+        print(f"❌ Registration error: {str(e)}")
+        db.session.rollback()
+        return {"success": False, "message": f"Cilad ayaa dhacday: {str(e)}"}
 
 @app.route("/authenticate", methods=["POST"])
 def authenticate():
