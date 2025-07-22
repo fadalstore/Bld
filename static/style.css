@@ -2027,7 +2027,7 @@ text-align: center;
 /* Dashboard Specific Styles */
 .dashboard-container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0auto;
     padding: 20px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
@@ -2186,4 +2186,55 @@ text-align: center;
     .stat-number {
         font-size: 2rem;
     }
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Contact Page Styles */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+.contact-method {
+    background: linear-gradient(135deg, #f8f9ff, #e8ecff);
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border-left: 4px solid #667eea;
+}
+
+.contact-method:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+}
+
+.contact-method h3 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.contact-method p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.contact-method p strong {
+    color: #667eea;
+    font-size: 1.1rem;
+}
+
+.faq-contact {
+    margin-top: 30px;
+    display: grid;
+    gap: 20px;
 }
