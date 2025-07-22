@@ -37,6 +37,21 @@ with app.app_context():
         demo = Post(title="Ku soo dhawaaw!", content="Qalbiga Nadiifta waa meel aad ku helayso xigmad, qisooyin iyo ducooyin qalbiga taabanaya.")
         db.session.add(demo)
         db.session.commit()
+    
+    # Add test user if doesn't exist
+    if not User.query.filter_by(username='admin').first():
+        from datetime import datetime
+        test_user = User(
+            username='admin',
+            email='admin@lacagonline.com',
+            password='123456',
+            earnings=150.75,
+            completed_surveys=25,
+            join_date=datetime.now().strftime('%Y-%m-%d')
+        )
+        db.session.add(test_user)
+        db.session.commit()
+        print("✅ Test user created: admin/123456")
 
 @app.route("/")
 def home():
