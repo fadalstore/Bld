@@ -1598,6 +1598,7 @@ footer {
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
     position: relative;
     overflow: hidden;
+    min-height: 280px;
 }
 
 .ad-banner::before, .ad-rectangle::before {
@@ -1633,6 +1634,29 @@ footer {
     background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
     animation: pulse 1.5s ease-in-out infinite alternate;
     min-height: 250px;
+}
+
+/* AdSense specific styles */
+.adsbygoogle {
+    display: block !important;
+    margin: 10px auto;
+    background-color: transparent;
+    min-height: 250px;
+}
+
+/* Ensure ads are visible */
+ins.adsbygoogle[data-ad-status="unfilled"] {
+    display: block !important;
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    color: #6c757d;
+    text-align: center;
+    line-height: 250px;
+    font-family: Arial, sans-serif;
+}
+
+ins.adsbygoogle[data-ad-status="unfilled"]:before {
+    content: "📢 Ad Space - Revenue Generator";
 }
 
 @keyframes pulse {

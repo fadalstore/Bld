@@ -298,11 +298,24 @@
 
     <!-- Scripts -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <!-- Google Analytics removed to fix errors -->
+    
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4270866898297862"
+            crossorigin="anonymous"></script>
+    
+    <!-- Initialize AdSense Ads -->
     <script>
-        // Analytics will be added later when properly configured
-        console.log('Website loaded successfully');</script>adsbygoogle = window.adsbygoogle || []).push({});
+        window.addEventListener('load', function() {
+            try {
+                // Initialize all AdSense ads on page
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                console.log('✅ AdSense ads initialized successfully');
+            } catch(e) {
+                console.log('AdSense initialization error:', e);
+            }
+        });
     </script>
-<!-- Analytics removed to fix errors -->
 </body>
 </html>

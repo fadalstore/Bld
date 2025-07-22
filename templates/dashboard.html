@@ -128,13 +128,16 @@
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
   <script>
-    // Initialize AdSense ads safely
-    try {
-      (adsbygoogle = window.adsbygoogle || []).push({});
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    } catch(e) {
-      console.log('AdSense initialization skipped');
-    }
+    window.addEventListener('load', function() {
+        try {
+            // Initialize AdSense ads safely
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            console.log('✅ AdSense ads loaded on dashboard');
+        } catch(e) {
+            console.log('AdSense error:', e);
+        }
+    });
 
     console.log('✅ Dashboard loaded successfully - No errors!');
   </script>
