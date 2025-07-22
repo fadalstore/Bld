@@ -152,6 +152,66 @@ def admin():
 def add():
     if request.method == "POST":
         title = request.form["title"]
+
+
+@app.route("/download-zip")
+def download_zip():
+    import zipfile
+    import io
+    from flask import send_file
+    
+    # Create zip file in memory
+    zip_buffer = io.BytesIO()
+    
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        # Add all template files
+        import os
+        for root, dirs, files in os.walk('templates'):
+            for file in files:
+                file_path = os.path.join(root, file)
+                zip_file.write(file_path, file_path)
+        
+        # Add all static files
+        for root, dirs, files in os.walk('static'):
+            for file in files:
+                file_path = os.path.join(root, file)
+                zip_file.write(file_path, file_path)
+        
+        # Add main files
+        zip_file.write('app.py', 'app.py')
+        zip_file.write('pyproject.toml', 'pyproject.toml')
+        zip_file.write('.replit', '.replit')
+        zip_file.write('README.md', 'README.md')
+        
+        # Add requirements file for easy setup
+        requirements = """flask>=3.1.1
+flask-sqlalchemy>=3.1.1"""
+        zip_file.writestr('requirements.txt', requirements)
+        
+        # Add setup instructions
+        setup_instructions = """# Lacag Online Website Setup
+
+## Installation:
+1. pip install -r requirements.txt
+2. python app.py
+
+## Login credentials:
+- Username: admin
+- Password: 123456
+
+## Website runs on: http://localhost:5000
+"""
+        zip_file.writestr('SETUP.md', setup_instructions)
+    
+    zip_buffer.seek(0)
+    
+    return send_file(
+        zip_buffer,
+        as_attachment=True,
+        download_name='lacag-online-website.zip',
+        mimetype='application/zip'
+    )
+
         content = request.form["content"]
         new_post = Post(title=title, content=content)
         db.session.add(new_post)
