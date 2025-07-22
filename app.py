@@ -68,6 +68,7 @@ def login():
 
 @app.route("/register", methods=["POST"])
 def register():
+    from flask import jsonify
     from datetime import datetime
     try:
         username = request.form.get('username')
@@ -76,12 +77,12 @@ def register():
 
         # Validate input
         if not username or not email or not password:
-            return {"success": False, "message": "Dhammaan goobaha buuxi!"}
+            return jsonify({"success": False, "message": "Dhammaan goobaha buuxi!"})
 
         # Check if user exists
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            return {"success": False, "message": "Isticmaalahan waa jira!"}
+            return jsonify({"success": False, "message": "Isticmaalahan waa jira!"})
 
         # Create new user
         new_user = User(
@@ -95,15 +96,16 @@ def register():
         db.session.commit()
 
         print(f"✅ User registered successfully: {username}")
-        return {"success": True, "message": "Guuleysta! Xisaab cusub ayaa la sameeyay!"}
+        return jsonify({"success": True, "message": "Guuleysta! Xisaab cusub ayaa la sameeyay!"})
 
     except Exception as e:
         print(f"❌ Registration error: {str(e)}")
         db.session.rollback()
-        return {"success": False, "message": f"Cilad ayaa dhacday: {str(e)}"}
+        return jsonify({"success": False, "message": f"Cilad ayaa dhacday: {str(e)}"})
 
 @app.route("/authenticate", methods=["POST"])
 def authenticate():
+    from flask import jsonify
     try:
         username = request.form.get('username')
         password = request.form.get('password')
@@ -111,12 +113,12 @@ def authenticate():
         user = User.query.filter_by(username=username, password=password).first()
 
         if user:
-            return {"success": True, "message": "Guuleysta! Dashboard-ka ayaad u waregi doontaa!"}
+            return jsonify({"success": True, "message": "Guuleysta! Dashboard-ka ayaad u waregi doontaa!"})
         else:
-            return {"success": False, "message": "Username ama password qaldan!"}
+            return jsonify({"success": False, "message": "Username ama password qaldan!"})
 
     except Exception as e:
-        return {"success": False, "message": "Cilad ayaa dhacday!"}
+        return jsonify({"success": False, "message": "Cilad ayaa dhacday!"})
 
 @app.route("/start-survey", methods=["POST"])
 def start_survey():

@@ -17,3 +17,127 @@
     </form>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gal - Lacag Online</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h1>🚀 Ku Soo Dhawaaw!</h1>
+            
+            <!-- Login Form -->
+            <div id="login-section">
+                <h2>🔐 Gal Xisaabakaaga</h2>
+                <form id="login-form">
+                    <div class="input-group">
+                        <input type="text" id="login-username" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="login-password" name="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="submit-btn">🚪 Gal</button>
+                </form>
+                <p class="switch-text">Xisaab ma lihid? <a href="#" onclick="showRegister()">Ka samee halkan!</a></p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-section" style="display: none;">
+                <h2>📝 Xisaab Cusub Samee</h2>
+                <form id="register-form">
+                    <div class="input-group">
+                        <input type="text" id="register-username" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="register-email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="register-password" name="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="submit-btn">✨ Samee Xisaab</button>
+                </form>
+                <p class="switch-text">Xisaab ma leedahay? <a href="#" onclick="showLogin()">Gal halkan!</a></p>
+            </div>
+
+            <!-- Demo Info -->
+            <div class="demo-info">
+                <p><strong>🎯 Demo Account:</strong></p>
+                <p>Username: <code>admin</code></p>
+                <p>Password: <code>123456</code></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Switch between login and register
+        function showRegister() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('register-section').style.display = 'block';
+        }
+
+        function showLogin() {
+            document.getElementById('register-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        }
+
+        // Handle login
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('username', document.getElementById('login-username').value);
+            formData.append('password', document.getElementById('login-password').value);
+
+            try {
+                const response = await fetch('/authenticate', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('✅ ' + result.message);
+                    window.location.href = '/dashboard';
+                } else {
+                    alert('❌ ' + result.message);
+                }
+            } catch (error) {
+                alert('❌ Cilad ayaa dhacday: ' + error.message);
+            }
+        });
+
+        // Handle registration
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('username', document.getElementById('register-username').value);
+            formData.append('email', document.getElementById('register-email').value);
+            formData.append('password', document.getElementById('register-password').value);
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('✅ ' + result.message);
+                    showLogin(); // Switch to login form
+                } else {
+                    alert('❌ ' + result.message);
+                }
+            } catch (error) {
+                alert('❌ Cilad ayaa dhacday: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
