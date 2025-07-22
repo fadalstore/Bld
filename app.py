@@ -40,8 +40,27 @@ with app.app_context():
 
 @app.route("/")
 def home():
-    posts = Post.query.all()
-    return render_template("index.html", posts=posts)
+    return render_template("index.html")
+
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html")
 
 @app.route("/admin")
 def admin():
